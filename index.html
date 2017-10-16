@@ -1,0 +1,248 @@
+<!DOCTYPE>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<style>
+input,label,select{
+	width: 220px;
+	height: 40px;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+button{
+	width: 60px;
+	height: 40px;
+	border-radius: 3px;
+}
+#main{
+	width: 880px;
+	margin:0 200px;
+}
+p{
+	font-size: 30px;
+	color: red;
+	font-weight: bold;
+}
+h1{
+	margin-top: 60px;
+}
+</style>
+</head>
+<body>
+<div id="main">
+	<h1>员工查询</h1>
+	<label>请输入员工编号</label>
+	<input type="text" id="keyword" />
+	<button id="search">查询</button>
+	<p id="searchResult"></p>
+
+	<h1>创建员工</h1>
+	<label>请输入员工姓名</label>
+	<input type="text" id="Name" /><br>
+	<label>请输入员工编号</label>
+	<input type="text" id="Number" /><br>
+	<label>请输入员工性别</label>
+	<select name="sex" id="Sex">
+		<option value="男">男</option>
+		<option value="女">女</option>
+	</select><br>
+	<label>请输入员工职位</label>
+	<input type="text" id="Job" />
+	<button id="save">建立</button>
+	<p id="createResult"></p>
+	<script src="jquery-3.2.1.js"></script>
+	<script>
+	/*JS原生
+		document.getElementById('search').onclick = function(){
+			//构造一个xmr对象
+			var request = new XMLHttpRequest();
+			//xmr的open方法建立一个请求，将表单的数据放在了服务器地址里一起发过去
+			request.open('GET','serverjson.php?number='+document.getElementById('keyword').value);
+			//发送请求
+			request.send();
+			//onreadystatechange事件，每当readyState变化时会触发；
+			request.onreadystatechange =function(){
+				if(request.readyState == 4){
+					if(request.status == 200){
+						//解析json文件
+						//responseText属性包含返回回来的字符串形式的数据。
+						var ifo = JSON.parse(request.responseText);
+						if(ifo.success){
+							document.getElementById('searchResult').innerHTML = ifo.msg;
+						}else{
+							document.getElementById('searchResult').innerHTML = "出现错误：" +ifo.msg;
+						}
+					}else{
+						alert("error:"+request.status)
+					}
+				}
+			}
+			
+		}
+
+
+
+		document.getElementById('save').onclick = function(){
+			var request = new XMLHttpRequest();
+			request.open('POST','serverjson.php');
+			//post要发送过去的数据，各个数据用&连接；
+			var data = 'name='+document.getElementById('Name').value+
+					'&number='+document.getElementById('Number').value+
+					'&sex='+document.getElementById('Sex').value+
+					'&job='+document.getElementById('Job').value;
+			//发送报头，不然会出错。
+			request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+			request.send(data);
+			request.onreadystatechange =function(){
+				if(request.readyState == 4){
+					if(request.status == 200){
+						var ifo = JSON.parse(request.responseText);
+						if(ifo.success){
+							document.getElementById('createResult').innerHTML = ifo.msg;
+						}else{
+							document.getElementById('createResult').innerHTML = "出现错误：" +ifo.msg;
+						}
+					}else{
+						alert("error:"+request.status)
+					}
+				}
+			}
+			
+		}*/
+
+		/* GET跨域问题的解决
+		$(function(){
+			$('#search').click(function(){
+				$.ajax({
+					type:"GET",
+					url:"http://127.0.0.1:8080/Ajax/serverjson.php?number="+$('#keyword').val(),
+					//特殊类型jsonp
+					dataType:"jsonp",
+					//设置一个属性
+					jsonp:"callback",
+					success:function(data){
+						if(data.success){
+							$('#searchResult').html(data.msg);
+						}else{
+							$('#searchResult').html("出现错误："+data.msg);
+						}
+					},
+					error:function(jqXHR){
+						alert("发生错误："+jqXHR.status);
+					}
+
+				})
+			})*/
+
+
+
+			/*jq代码
+			$(function(){
+			$('#search').click(function(){
+				$.ajax({
+					//请求类型
+					type:"GET",
+					//发送的请求地址
+					url:"serverjson.php?number="+$('#keyword').val(),
+					//预期服务器返回的数据类型
+					dataType:"json",
+					//返回成功
+					success:function(data){
+						if(data.success){
+							$('#searchResult').html(data.msg);
+						}else{
+							$('#searchResult').html("出现错误："+data.msg);
+						}
+					},
+					error:function(jqXHR){
+						alert("发生错误："+jqXHR.status);
+					}
+
+				})
+			})
+
+			$('#save').click(function(){
+				$.ajax({
+					//请求类型
+					type:"POST",
+					data:{name:$('#Name').val(),
+						number:$('#Number').val(),
+						sex:$('#Sex').val(),
+						job:$('#Job').val(),
+						},
+					//发送的请求地址
+					url:"serverjson.php",
+					//预期服务器返回的数据类型
+					dataType:"json",
+					success:function(data){
+						if(data.success){				
+							$('#createResult').html(data.msg);
+						}else{
+							$('#createResult').html("出现错误："+data.msg);
+						}
+					},
+					error:function(jqXHR){
+						alert("发生错误："+jqXHR.status);
+					}
+
+				})
+			})
+
+		})*/
+
+
+		$(function(){
+			$('#search').click(function(){
+				$.ajax({
+					//请求类型
+					type:"GET",
+					//发送的请求地址（跨域）
+					url:"sesrverjson.php?number="+$('#keyword').val(),
+					//预期服务器返回的数据类型
+					dataType:"json",
+					success:function(data){
+						if(data.success){
+							$('#searchResult').html(data.msg);
+						}else{
+							$('#searchResult').html("出现错误："+data.msg);
+						}
+					},
+					error:function(jqXHR){
+						alert("发生错误："+jqXHR.status);
+					}
+
+				})
+			})
+
+			$('#save').click(function(){
+				$.ajax({
+					//请求类型
+					type:"POST",
+					data:{name:$('#Name').val(),
+						number:$('#Number').val(),
+						sex:$('#Sex').val(),
+						job:$('#Job').val(),
+						},
+					//发送的请求地址
+					url:"http://127.0.0.1:8080/Ajax/serverjson.php",
+					//预期服务器返回的数据类型
+					dataType:"json",
+					success:function(data){
+						if(data.success){				
+							$('#createResult').html(data.msg);
+						}else{
+							$('#createResult').html("出现错误："+data.msg);
+						}
+					},
+					error:function(jqXHR){
+						alert("发生错误："+jqXHR.status);
+					}
+
+				})
+			})
+
+		})
+	</script>
+</div>
+</body>
+</html>

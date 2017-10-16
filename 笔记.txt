@@ -1,0 +1,48 @@
+HTTP请求过程：
+1、建立TCP连接
+2、web浏览器向web服务器发送请求命令   //2-3即请求过程
+3、web浏览器发送请求头信息
+4、web服务器应答		//4-6即响应过程
+5、web服务器发送应答头信息
+6、web服务器向浏览器发送数据
+7、web服务器关闭TCP连接
+
+
+HTTP响应包括三部分：
+1、状态码 一个数字和文字组成的状态码，用来显示请求是成功还是失败  1xx 正在处理 2xx 响应成功 3xx 请求没成功 4xx 客户端错误 请求失败 5xx 服务器错误
+2、响应头 数据的各个信息
+3、响应体 也就是正文
+
+XMLHttpRequest对象发送请求的方法：
+.open(method,url,async)  (发送请求方法，请求的地址，同步还是异步)  建立请求
+.send(string)   发送请求
+
+
+XMLHttpRequest对象取得响应的方法：
+responseText:获得字符串形式的响应数据；
+responseXML:获得XML形式的响应数据；
+status和statusText:以数字和文本返回HTTP状态码
+getAllResponseHeader():获取所有的响应报头
+getResponseHeader():查询响应中某个字段的值
+readyState:查询响应的情况  0:请求未初始化 1：服务器连接已经建立 2：接收到头信息了 3：接收到响应主体了 4：请求已经完成
+
+
+readyState:是指运行AJAX所经历过的几种状态，无论访问是否成功都将响应的步骤，可以理解成为AJAX运行步骤，使用“ajax.readyState”获得
+status:是指无论AJAX访问是否成功，由HTTP协议根据所提交的信息，服务器所返回的HTTP头信息代码，使用“ajax.status”获得
+总体理解：可以简单的理解为state代表一个整体的状态。而status是这个大的state下面具体的小的状态。
+
+
+
+
+JSON语法规则
+{									//表示是一个json对象
+	"staff":[						//json值对是一个数组
+		{"name":"洪七","age":70},	//小的对象，里面有一些属性
+		{"name":"郭靖","age":25}
+	]
+}
+
+
+JSON解析
+1、eval('('+json+')');
+2、JSON.parse(json)
